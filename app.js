@@ -47,7 +47,8 @@ form.addEventListener("submit", async (e) => {
     }
   }
 
-  const response = window.fetch("https://api.openai.com/v1/completions",requestOptions)
+  const response = await window.fetch("https://api.openai.com/v1/completions",requestOptions);
+  response= await response.json();
   const chatbotResponse = response.data.choices[0].text;
 
   messages.innerHTML += `<div class="message bot-message">

@@ -1,4 +1,4 @@
-const form= document.getElementById("chat-form");
+const form = document.getElementById("chat-form");
 const input = document.getElementById("chat-input");
 const messages = document.getElementById("chat-messages");
 const apiKey = "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";
@@ -12,9 +12,31 @@ form.addEventListener("submit", async (e) => {
   </div>`;
 
   // Use axios library to make a POST request to the OpenAI API
-  const response = await axios.post(
-    "https://api.openai.com/v1/completions",
-    {
+  // const response = await axios.post(
+  //   "https://api.openai.com/v1/completions",
+  //   {
+  //     prompt: `you are an ai chatbot who will be my friend and your name is bhuvan and you will respond to me like your friend\nhuman: hello\nBhuvan: Hi there! How can I help you?\nhuman: what are you doing?\nBhuvan: I'm just here to chat and help you out. What's on your mind?\nhuman:${message}`,
+  //     model: "text-davinci-003",
+  //     temperature: 0,
+  //     max_tokens: 100,
+  //     top_p: 1,
+  //     frequency_penalty: 0.0,
+  //     presence_penalty: 0.0,
+  //   },
+  //   {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${apiKey}`,
+  //     },
+  //   }
+  // );
+  const requestOptions = {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: {
       prompt: `you are an ai chatbot who will be my friend and your name is bhuvan and you will respond to me like your friend\nhuman: hello\nBhuvan: Hi there! How can I help you?\nhuman: what are you doing?\nBhuvan: I'm just here to chat and help you out. What's on your mind?\nhuman:${message}`,
       model: "text-davinci-003",
       temperature: 0,
@@ -22,14 +44,10 @@ form.addEventListener("submit", async (e) => {
       top_p: 1,
       frequency_penalty: 0.0,
       presence_penalty: 0.0,
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
     }
-  );
+  }
+
+  const response = window.fetch("https://api.openai.com/v1/completions",requestOptions)
   const chatbotResponse = response.data.choices[0].text;
 
   messages.innerHTML += `<div class="message bot-message">
